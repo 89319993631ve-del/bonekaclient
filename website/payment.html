@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата подписки — Boneka Client</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <span class="logo-text">Boneka Client</span>
+        </a>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="index.html#buy">Покупка</a>
+            <a href="cabinet.html" class="btn btn-ghost">Личный кабинет</a>
+            <a href="login.html" class="btn btn-nav" id="header-login">Вход</a>
+            <a href="#" class="btn btn-outline btn-pill" id="header-logout" style="display: none;">Выйти</a>
+        </nav>
+    </header>
+
+    <main class="form-page">
+        <div class="form-card payment-card">
+            <h1>Оплата подписки</h1>
+            <p class="form-desc">Оплата производится на сайте. После подтверждения оплаты доступ к скачиванию лаунчера откроется в личном кабинете.</p>
+            <div id="payment-message" class="form-message" style="display: none;"></div>
+            <div class="payment-plan" id="payment-plan-info">
+                <div class="payment-plan-name" id="payment-plan-name">—</div>
+                <div class="payment-plan-price" id="payment-plan-price">—</div>
+                <p class="payment-plan-desc">Карта, СБП, крипто. Выберите способ оплаты и нажмите «Подтвердить оплату» для завершения (демо).</p>
+            </div>
+            <form id="payment-form" class="form">
+                <button type="submit" class="btn btn-accent btn-block btn-pill btn-lg">Подтвердить оплату</button>
+            </form>
+            <p class="form-footer"><a href="index.html#buy">← Вернуться к тарифам</a></p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-col"><strong>Boneka Client</strong><p>© 2025. Все права защищены.</p></div>
+            <div class="footer-col"><a href="index.html">Главная</a><a href="index.html#buy">Покупка</a></div>
+            <div class="footer-col"><a href="cabinet.html">Личный кабинет</a><a href="login.html">Вход</a></div>
+        </div>
+    </footer>
+    <script src="app.js"></script>
+    <script>
+    (function() {
+        var STORAGE_KEY = 'boneka_users';
+        var LOGGED_KEY = 'boneka_logged_email';
+
+        function getUsers() {
+            try {
+                var raw = localStorage.getItem(STORAGE_KEY);
+                return raw ? JSON.parse(raw) : {};
+            } catch (e) { return {}; }
+        }
+
+        function getLoggedEmail() { return localStorage.getItem(LOGGED_KEY) || ''; }
+
+        var params = new URLSearchParams(window.location.search);
+        var plan = (params.get('plan') || '').toLowerCase();
+        var plans = {
+            '1m': { name: '1 месяц', price: '99 ₽' },
+            '3m': { name: '3 месяца', price: '159 ₽' },
+            'forever': { name: 'Навсегда', price: '299 ₽' },
+            'alpha': { name: 'Alpha', price: '499 ₽' }
+        };
+
+        if (!plans[plan]) {
+            plan = '1m';
+        }
+
+        document.getElementById('payment-plan-name').textContent = plans[plan].name;
+        document.getElementById('payment-plan-price').textContent = plans[plan].price;
+
+        var email = getLoggedEmail();
+        if (!email) {
+            window.location.href = 'login.html?redirect=' + encodeURIComponent('payment.html?plan=' + plan);
+            return;
+        }
+
+        var users = getUsers();
+        var user = users[email];
+        if (!user) {
+            window.location.href = 'login.html?redirect=' + encodeURIComponent('payment.html?plan=' + plan);
+            return;
+        }
+
+        document.getElementById('header-login').style.display = 'none';
+        document.getElementById('header-logout').style.display = 'inline-block';
+        document.getElementById('header-logout').href = '#';
+        document.getElementById('header-logout').addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem(LOGGED_KEY);
+            window.location.href = 'login.html';
+        });
+
+        document.getElementById('payment-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            user.plan = plan;
+            user.subscriptionPaidAt = Date.now();
+            users[email] = user;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
+            window.location.href = 'cabinet.html';
+        });
+    })();
+    </script>
+</body>
+</html>

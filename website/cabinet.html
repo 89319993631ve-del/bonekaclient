@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет — Boneka Client</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">Boneka Client</div>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="index.html#buy">Покупка</a>
+            <a href="cabinet.html" class="btn btn-ghost">Личный кабинет</a>
+            <a href="login.html" class="btn btn-nav" id="header-login">Вход</a>
+            <a href="#" class="btn btn-outline btn-pill" id="header-logout" style="display: none;">Выйти</a>
+        </nav>
+    </header>
+
+    <main class="cabinet-page">
+        <div class="cabinet-card cabinet-card-enter">
+            <div class="cabinet-card-glow"></div>
+            <h1 class="cabinet-title">Личный кабинет</h1>
+            <p class="cabinet-desc">Управление аккаунтом, смена пароля и ника, скачивание лаунчера (доступно при активной подписке).</p>
+
+            <div class="cabinet-profile cabinet-block">
+                <div class="cabinet-avatar" id="cabinet-avatar">—</div>
+                <div class="cabinet-profile-info">
+                    <div class="cabinet-profile-name" id="cabinet-profile-name">—</div>
+                    <div class="cabinet-profile-email" id="cabinet-profile-email">—</div>
+                    <div class="cabinet-profile-plan" id="cabinet-profile-plan"></div>
+                </div>
+            </div>
+
+            <div class="cabinet-info cabinet-block">
+                <div class="cabinet-row">
+                    <span class="cabinet-label">Email</span>
+                    <span class="cabinet-value" id="cabinet-email">—</span>
+                </div>
+                <div class="cabinet-row">
+                    <span class="cabinet-label">Имя пользователя (ник)</span>
+                    <span class="cabinet-value" id="cabinet-login">—</span>
+                </div>
+                <div class="cabinet-row">
+                    <span class="cabinet-label">HWID</span>
+                    <span class="cabinet-value cabinet-hwid" id="cabinet-hwid">Привязывается при первом запуске лаунчера</span>
+                </div>
+            </div>
+
+            <div class="cabinet-download cabinet-block">
+                <div class="cabinet-download-area" id="cabinet-download-area">
+                    <div class="cabinet-download-buttons" id="cabinet-download-buttons" style="display: none;">
+                        <a href="launcher/BonekaClient.zip" download="BonekaClient.zip" class="btn btn-accent btn-download">Скачать лаунчер (ZIP)</a>
+                    <span class="cabinet-download-sep">или</span>
+                    <a href="launcher/boneka-launcher.jar" download="boneka-launcher.jar" class="btn btn-outline btn-download">JAR</a>
+                    <a href="launcher/run.bat" download="run.bat" class="btn btn-outline btn-download">run.bat</a>
+                    </div>
+                    <div class="cabinet-download-locked" id="cabinet-download-locked" style="display: none;">
+                        <p class="cabinet-download-locked-text">Скачивание лаунчера доступно только при активной подписке.</p>
+                        <a href="index.html#buy" class="btn btn-accent btn-pill">Оформить подписку</a>
+                    </div>
+                </div>
+                <p class="cabinet-download-note"><strong>ZIP</strong> — распакуйте и запустите <code>run.bat</code> (2 клика: папка → run.bat). В лаунчере обязателен вход в аккаунт; в настройках укажите путь к папке с клиентом. HWID привязывается при первом запуске.</p>
+            </div>
+
+            <div class="cabinet-section cabinet-block">
+                <h2>Сменить имя пользователя</h2>
+                <div id="cabinet-login-message" class="form-message" style="display: none;"></div>
+                <form id="cabinet-form-login" class="form form-inline">
+                    <input type="text" id="new-login" placeholder="Новый ник (3–16 символов)" minlength="3" maxlength="16" required>
+                    <button type="submit" class="btn btn-primary btn-ani">Сохранить</button>
+                </form>
+            </div>
+
+            <div class="cabinet-section cabinet-block">
+                <h2>Сменить пароль</h2>
+                <div id="cabinet-password-message" class="form-message" style="display: none;"></div>
+                <form id="cabinet-form-password" class="form">
+                    <label for="current-password">Текущий пароль</label>
+                    <input type="password" id="current-password" placeholder="Текущий пароль" required>
+                    <label for="new-password">Новый пароль</label>
+                    <input type="password" id="new-password" placeholder="Не менее 6 символов" minlength="6" required>
+                    <label for="new-password-repeat">Повторите новый пароль</label>
+                    <input type="password" id="new-password-repeat" placeholder="Повторите пароль" minlength="6" required>
+                    <button type="submit" class="btn btn-primary btn-block btn-ani">Сменить пароль</button>
+                </form>
+            </div>
+
+            <div class="cabinet-logout">
+                <button type="button" class="btn btn-outline btn-ani" id="cabinet-logout-btn">Выйти из аккаунта</button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-col"><strong>Boneka Client</strong><p>© 2025. Все права защищены.</p></div>
+            <div class="footer-col"><a href="index.html">Главная</a><a href="index.html#buy">Покупка</a></div>
+            <div class="footer-col"><a href="cabinet.html">Личный кабинет</a><a href="login.html">Вход</a></div>
+        </div>
+    </footer>
+    <script src="app.js"></script>
+    <script src="cabinet.js"></script>
+</body>
+</html>

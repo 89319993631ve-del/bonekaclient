@@ -1,0 +1,32 @@
+Как получить ссылку на сайт для продажи Boneka Client
+====================================================
+
+1) Локально (без интернета)
+   Откройте в браузере файл:
+   file:///C:/Users/User/Desktop/Boneka Client/website/index.html
+   Или перетащите index.html в окно браузера.
+
+2) Бесплатная ссылка в интернете (чтобы скинуть клиентам)
+
+   GitHub Pages:
+   - Создайте репозиторий на github.com.
+   - Загрузите содержимое папки website в репозиторий.
+   - Settings → Pages → Source: main branch, папка / (root).
+   - Ссылка будет: https://ВАШ_ЛОГИН.github.io/ИМЯ_РЕПО/
+
+   Netlify (проще всего):
+   - Зайдите на https://app.netlify.com
+   - Перетащите папку website в зону "Drag and drop your site output folder here".
+   - Netlify выдаст ссылку вида: https://random-name-123.netlify.app
+   - В Domain settings можно задать своё имя, например: bonekaclient.netlify.app
+
+   Vercel:
+   - https://vercel.com → Add New Project → загрузите папку website.
+   - Получите ссылку вида: https://ваш-проект.vercel.app
+
+После публикации ваша ссылка будет выглядеть примерно так:
+https://bonekaclient.netlify.app
+или
+https://ваш-ник.github.io/boneka-client/
+
+Эту ссылку можно скидывать клиентам для покупки.

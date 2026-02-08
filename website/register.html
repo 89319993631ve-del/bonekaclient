@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация — Boneka Client</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="" class="logo-img" onerror="this.style.display='none'">
+            <span class="logo-text">Boneka Client</span>
+        </a>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="index.html#buy">Покупка</a>
+            <a href="login.html" class="btn btn-nav btn-pill">Вход</a>
+            <a href="register.html" class="btn btn-accent btn-pill">Регистрация</a>
+        </nav>
+    </header>
+
+    <main class="form-page">
+        <div class="form-card">
+            <h1>Регистрация</h1>
+            <p class="form-desc">Создайте аккаунт для покупки доступа и скачивания лаунчера.</p>
+            <div id="register-message" class="form-message" role="alert" aria-live="polite" style="display: none;"></div>
+            <form class="form" method="post" id="register-form" novalidate action="javascript:void(0);" onsubmit="return false;">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="example@mail.ru" required autocomplete="email">
+                <label for="login">Логин (ник в Minecraft)</label>
+                <input type="text" id="login" name="login" placeholder="Steve" required minlength="3" maxlength="16" autocomplete="username">
+                <label for="password">Пароль</label>
+                <input type="password" id="password" name="password" placeholder="Не менее 6 символов" required minlength="6" autocomplete="new-password">
+                <div class="h-captcha" data-sitekey="1d9ac86e-bb5c-4d38-8ba6-0d5c86aa45ba"></div>
+                <button type="submit" class="btn btn-accent btn-block btn-pill" id="register-btn">Зарегистрироваться</button>
+            </form>
+            <p class="form-footer">Уже есть аккаунт? <a href="login.html">Войти</a></p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-col"><strong>Boneka Client</strong><p>© 2025. Все права защищены.</p></div>
+            <div class="footer-col"><a href="index.html">Главная</a><a href="index.html#buy">Покупка</a></div>
+            <div class="footer-col"><a href="login.html">Вход</a><a href="register.html">Регистрация</a></div>
+        </div>
+    </footer>
+    <script src="app.js"></script>
+    <script>
+    (function() {
+        var form = document.getElementById('register-form');
+        var msgEl = document.getElementById('register-message');
+        if (!form || !msgEl) return;
+        function showMsg(text, isErr) {
+            msgEl.textContent = text;
+            msgEl.style.display = 'block';
+            msgEl.className = 'form-message ' + (isErr ? 'form-message-error' : 'form-message-success');
+        }
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            msgEl.style.display = 'none';
+            var email = (document.getElementById('email') && document.getElementById('email').value) ? document.getElementById('email').value.trim() : '';
+            var login = (document.getElementById('login') && document.getElementById('login').value) ? document.getElementById('login').value.trim() : '';
+            var password = (document.getElementById('password') && document.getElementById('password').value) ? document.getElementById('password').value : '';
+            if (!email || !login || !password) {
+                showMsg('Заполните все поля.', true);
+                msgEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                return false;
+            }
+            if (login.length < 3) {
+                showMsg('Логин не менее 3 символов.', true);
+                msgEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                return false;
+            }
+            if (password.length < 6) {
+                showMsg('Пароль не менее 6 символов.', true);
+                msgEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                return false;
+            }
+            var cap = document.querySelector('textarea[name="h-captcha-response"]') || document.querySelector('input[name="h-captcha-response"]');
+            if (!cap || !cap.value || cap.value.length === 0) {
+                showMsg('Пожалуйста, пройдите капчу (отметьте «Я не робот»).', true);
+                msgEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                return false;
+            }
+            try {
+                var raw = localStorage.getItem('boneka_users');
+                var users = raw ? JSON.parse(raw) : {};
+                var key = email.toLowerCase();
+                if (users[key]) {
+                    showMsg('Аккаунт с таким email уже есть. Войдите в аккаунт.', true);
+                    return false;
+                }
+                users[key] = { login: login, password: password };
+                localStorage.setItem('boneka_users', JSON.stringify(users));
+                localStorage.setItem('boneka_logged_email', key);
+                window.location.href = 'cabinet.html';
+            } catch (err) {
+                showMsg('Ошибка: ' + (err.message || 'не удалось сохранить'), true);
+            }
+            return false;
+        });
+        document.getElementById('register-btn') && document.getElementById('register-btn').addEventListener('click', function(ev) {
+            form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        });
+    })();
+    </script>
+</body>
+</html>

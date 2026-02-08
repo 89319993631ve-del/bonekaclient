@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход — Boneka Client</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://js.hcaptcha.com/1/api.js" async defer></script>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">
+            <img src="images/logo.png" alt="" class="logo-img" onerror="this.style.display='none'">
+            <span class="logo-text">Boneka Client</span>
+        </a>
+        <nav>
+            <a href="index.html">Главная</a>
+            <a href="index.html#buy">Покупка</a>
+            <a href="login.html" class="btn btn-nav btn-pill">Вход</a>
+            <a href="register.html" class="btn btn-accent btn-pill">Регистрация</a>
+        </nav>
+    </header>
+
+    <main class="form-page">
+        <div class="form-card">
+            <h1>Вход в аккаунт</h1>
+            <p class="form-desc">Введите email и пароль для входа и скачивания лаунчера.</p>
+            <div id="login-message" class="form-message" style="display: none;"></div>
+            <form class="form" action="" method="POST" id="login-form">
+                <label for="login-email">Email</label>
+                <input type="email" id="login-email" name="email" placeholder="example@mail.ru" required autocomplete="email">
+                <label for="login-password">Пароль</label>
+                <input type="password" id="login-password" name="password" placeholder="Пароль" required autocomplete="current-password">
+                <div class="h-captcha" data-sitekey="1d9ac86e-bb5c-4d38-8ba6-0d5c86aa45ba"></div>
+                <button type="submit" class="btn btn-accent btn-block btn-pill">Войти</button>
+            </form>
+            <p class="form-footer">Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-col"><strong>Boneka Client</strong><p>© 2025. Все права защищены.</p></div>
+            <div class="footer-col"><a href="index.html">Главная</a><a href="index.html#buy">Покупка</a></div>
+            <div class="footer-col"><a href="login.html">Вход</a><a href="register.html">Регистрация</a></div>
+        </div>
+    </footer>
+    <script src="app.js"></script>
+</body>
+</html>
